@@ -39,7 +39,9 @@ your `.emacs.d/init.el`, `.emacs`, or whatever:
 ```
 (require 'treadmill) ; will not be required with MELPA package
 (add-hook 'gerbil-mode-hook #'treadmill-gerbil-mode)
-
+;; For completion using company
+(require 'treadmill-complete) ; will not be required with MELPA package
+(add-to-list 'company-backends 'treadmill-company)
 ```
 
 Additionally, you will need to [install

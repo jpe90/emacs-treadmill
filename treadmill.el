@@ -655,11 +655,7 @@ position.  Otherwise, function just as MOVE-BEGINNING-OF-LINE."
          (goto-char treadmill-ia-mark))
         (t (move-beginning-of-line n-lines))))
 
-;;;###autoload
-(defvar treadmill-mode-hook nil
-  "Hook for executing code after Treadmill starts.")
-
-(defun treadmill--make-mode-map ()
+(defun treadmill-mode-map ()
   "Construct Treadmill mode map, including plugins' bindings."
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "RET") 'treadmill-ia-eval)
@@ -671,15 +667,8 @@ position.  Otherwise, function just as MOVE-BEGINNING-OF-LINE."
     (treadmill--plugin-fold 'keymap map)))
 
 ;;;###autoload
-(defun treadmill-mode ()
-  "Major mode for interacting with Gerbil."
-  (interactive)
-  (use-local-map (treadmill--make-mode-map))
-  (setq mode-name "Treadmill Interaction")
-  (setq major-mode 'treadmill-mode)
-  (company-mode t)
-  (make-local-variable 'after-change-functions)
-  (run-hooks 'treadmill-mode-hook))
+(define-derived-mode treadmill-mode fundamental-mode "Treadmill Interaction"
+  "Major mode for interacting with Gerbil.")
 
 (defun treadmill-gerbil-refresh-module ()
   "Reload if current buffer has a non-toplevel module associated with it."

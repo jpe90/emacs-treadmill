@@ -139,7 +139,7 @@
         ((eq e 'connected)
          (setq treadmill-history--buffer
                (generate-new-buffer "*treadmill-history*"))
-         (add-hook 'after-change-functions 'treadmill-history--reset))
+         (add-hook 'after-change-functions 'treadmill-history--reset nil 'local))
 
         ((eq e 'quitting)
          (kill-buffer treadmill-history--buffer))

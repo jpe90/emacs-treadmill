@@ -60,20 +60,20 @@
   (let ((expr (format "(complete \"^%s\")" prefix)))
     (treadmill-eval1 expr)))
 
-(defun treadmill-complete--company-backend
+;;;###autoload
+(defun treadmill-company
     (command &optional arg &rest _ignored)
   "Working with Company by evaluating COMMAND, using ARG if approporiate."
   (interactive (list 'interactive))
   (cl-case command
     (interactive (company-begin-backend 'treadmill-company-backend))
-    (prefix (and (or (eq major-mode 'treadmill-mode)
+    (prefix (and (or (derived-mode-p 'treadmill-mode)
                      (bound-and-true-p treadmill-gerbil-mode))
                  (let ((sym (company-grab-symbol)))
                    (and (> (length sym) 1)
                         sym))))
     (candidates (treadmill-complete--complete arg))
     (meta (treadmill-complete--symbol-meta arg))))
-(add-to-list 'company-backends 'treadmill-complete--company-backend)
 
 (defun treadmill-complete-plugin-proc (e arg)
   "Process Treadmill event E with arg ARG."
