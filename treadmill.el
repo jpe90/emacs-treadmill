@@ -291,6 +291,16 @@ EXPRS are evaluated and the value of POINT afterwards."
        (add-text-properties ,beg (point) ,properties)
        ,result)))
 
+(defmacro treadmill--with-connection (&rest exprs)
+  "Evalutate EXPRS in context where network REPL process is accessible."
+  (let ((temp-b (make-symbol "buffer")))
+    `(if (bound-and-true-p treadmill--repl-process)
+         (progn ,@exprs)
+       (let ((,temp-b
+              (and treadmill-current-interaction-buffer
+                   (get-buffer treadmill-current-interaction-buffer))))
+         (with-current-buffer ,temp-b ,@exprs)))))
+
 (defun treadmill-ia-propertized-message (properties msg &rest args)
   "Issue MSG with ARGS in the interaction buffer with PROPERTIES."
   (treadmill--with-connection
@@ -494,16 +504,6 @@ prompt."
       (set-process-filter
        p (treadmill--repl-completion-filter completion))
       (process-send-string p (format "(eval/sentinel %s)\n" s)))))
-
-(defmacro treadmill--with-connection (&rest exprs)
-  "Evalutate EXPRS in context where network REPL process is accessible."
-  (let ((temp-b (make-symbol "buffer")))
-    `(if (bound-and-true-p treadmill--repl-process)
-         (progn ,@exprs)
-       (let ((,temp-b
-              (and treadmill-current-interaction-buffer
-                   (get-buffer treadmill-current-interaction-buffer))))
-         (with-current-buffer ,temp-b ,@exprs)))))
 
 (defvar-local treadmill--eval-value nil
   "Value of last blocking network REPL evaluation.")
