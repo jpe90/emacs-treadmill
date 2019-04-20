@@ -7,7 +7,7 @@
 ;; URL: https://github.com/thunknyc/emacs-treadmill
 ;; Keywords: languages gerbil scheme lisp
 ;; Version: 0.1-snapshot
-;; Package-Requires: ((emacs "25.1") (company "0.9.0") (cl-lib "0.3"))
+;; Package-Requires: ((emacs "25.1") (company "0.9.0"))
 
 ;;; Commentary:
 
