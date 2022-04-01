@@ -464,18 +464,18 @@ prompt."
         (setq treadmill--repl-process repl-p)
         (with-current-buffer repl-b
           (setq treadmill--spawn-process spawn-process))))
-    (message "Connected to network REPL on port %d" port)
+    (message "Connected to network REPL on port %s" port)
     (let ((b (generate-new-buffer "*treadmill*")))
       (setq treadmill-current-interaction-buffer (buffer-name b))
       (with-current-buffer repl-b
         (setq treadmill-interaction-buffer b)
-              (setq treadmill--repl-process repl-p))
+        (setq treadmill--repl-process repl-p))
       (switch-to-buffer b)
+      (treadmill-mode)
       (setq treadmill--repl-process repl-p)
       (treadmill--propertizing '(face font-lock-comment-face)
        (insert ";;; Welcome to the Gerbil Treadmill\n"))
       (treadmill-issue-prompt)
-      (treadmill-mode)
       (treadmill--plugin-hook 'connected b))))
 
 (defun treadmill--start-server ()

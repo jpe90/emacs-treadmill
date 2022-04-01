@@ -1,2 +1,2 @@
-(package: thunknyc)
-(depends: github.com/thunknyc/apropos)
+(package: treadmill)
+(depends: github.com/jpe90/apropos)
